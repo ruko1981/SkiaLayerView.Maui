@@ -51,6 +51,10 @@
 	  <PackageReference Include="CommunityToolkit.MVVM" Version="8.2.1" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\SkiaLayerView\SkiaLayerView.csproj" />
+	</ItemGroup>
+
 	<PropertyGroup Label="MauiAppAccelerator">
 		<wizardVersion>v1.3.2</wizardVersion>
 		<projectType>CSharpMarkup</projectType>
