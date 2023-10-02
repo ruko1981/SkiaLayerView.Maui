@@ -1,5 +1,5 @@
 ﻿namespace SkiaLayerView;
-public class Layer
+public class SKLayer
 {
    // The finished recording - Used to play back the Draw commands to the SKGLView from the GUI thread
    private SKPicture _picture = null;
@@ -8,18 +8,22 @@ public class Layer
    private bool _isValid = false;
 
 
-   public string Title { get; set; }
+   public string Name { get; set; }
    public int RenderCount { get; private set; }
    public int PaintCount { get; private set; }
+   public bool IsVisible { get; internal set; }
+   public float Opacity { get; internal set; }
+   public Action<SKCanvas, SKRect> DrawAction { get; internal set; }
 
-   public Layer (string title)
+   public SKLayer (string name, Action<SKCanvas, SKRect> drawAction)
    {
-      Title = title;
+      Name = name;
+      DrawAction = drawAction;
       RenderCount = 0;
       PaintCount = 0;
    }
 
-   public void Render (SKRect clippingBounds, Action<SKCanvas, SKRect> Drawer)
+   public void Render (SKRect clippingBounds)
    {
       // Only redraw the Layer if it has been invalidated
       if (!_isValid)
@@ -30,8 +34,8 @@ public class Layer
          // Start recording
          recorder.BeginRecording(clippingBounds);
 
-         // Use drawer action to draw on the Canvas provided and the commands will be recorded for later playback.
-         Drawer(recorder.RecordingCanvas, clippingBounds);
+         // Use drawAction action to draw on the Canvas provided and the commands will be recorded for later playback.
+         DrawAction(recorder.RecordingCanvas, clippingBounds);
 
          // Dispose of previous picure
          _picture?.Dispose();
@@ -39,7 +43,7 @@ public class Layer
          // Create a new picture from the recording
          _picture = recorder.EndRecording();
 
-         this.RenderCount++;
+         RenderCount++;
 
          _isValid = true;
       }
@@ -54,7 +58,7 @@ public class Layer
       {
          SKGLViewCanvas.DrawPicture(_picture);
 
-         this.PaintCount++;
+         PaintCount++;
       }
    }
 

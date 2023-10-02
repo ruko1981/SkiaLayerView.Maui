@@ -1,29 +1,21 @@
 ﻿using SkiaLayerView;
+using SkiaSharp;
 
 namespace SkiaLayerViewSample.Views;
 
 public partial class MainPage : ContentPage
 {
-	public MainPage(MainViewModel viewModel)
-	{
-		BindingContext = viewModel;
+   public MainPage (MainViewModel viewModel)
+   {
+      BindingContext = viewModel;
 
-		Content = new ScrollView
-		{
-			Content = new VerticalStackLayout
-			{
-				Spacing = 25,
+      Content = new Border()
+      {     
+         Stroke = Brush.Green,
+         Content = new SKLayerView2()
+         {
 
-				Children =
-				{
-					new SKLayerView 
-					{ 
-				 	
-					}
-				}
-			}
-			.Padding(30, 0)
-			.CenterVertical()
-		};
-	}
+         }
+      };
+   }
 }

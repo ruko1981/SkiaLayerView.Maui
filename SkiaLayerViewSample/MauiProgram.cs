@@ -1,4 +1,6 @@
-﻿namespace SkiaLayerViewSample;
+﻿using SkiaLayerView;
+
+namespace SkiaLayerViewSample;
 
 public static class MauiProgram
 {
@@ -9,7 +11,8 @@ public static class MauiProgram
 			.UseMauiApp<App>()
 			.UseMauiCommunityToolkit()
 			.UseMauiCommunityToolkitMarkup()
-			.ConfigureFonts(fonts =>
+			.UseSKLayerView()
+         .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("FontAwesome6FreeBrands.otf", "FontAwesomeBrands");
 				fonts.AddFont("FontAwesome6FreeRegular.otf", "FontAwesomeRegular");
