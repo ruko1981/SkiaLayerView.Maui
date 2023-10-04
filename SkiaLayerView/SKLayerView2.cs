@@ -107,7 +107,6 @@ public class SKLayerView2 : SKCanvasView
             await _renderSemaphore.WaitAsync(token);
 
             // TODO: Add ShouldRender flag
-            _ = canvas
             foreach (var layerName in _layerOrder)
             {
                Layers[layerName].Render(new(0,0, 199, 100));
@@ -132,16 +131,17 @@ public class SKLayerView2 : SKCanvasView
    }
    public void StartRenderLoop ()
    {
-      if (_cts != null)
-      {
-         _cts.Cancel();
-      }
+      _cts?.Cancel();
+      _cts?.Dispose();
+
       _cts = new CancellationTokenSource();
+      
       Task.Run(() => RenderLoop());
    }
    public void StopRenderLoop ()
    {
       _cts?.Cancel();
+      _cts?.Dispose();
    }
 
    override protected void OnPaintSurface (SKPaintSurfaceEventArgs e)
