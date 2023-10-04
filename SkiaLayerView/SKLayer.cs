@@ -52,11 +52,11 @@ public class SKLayer
    // Paints the previously recorded SKPicture to the provided skglControlCanvas.  This basically plays 
    // back the draw commands from the last Render.  This should be called from the SKGLView.PaintSurface
    // event using the GUI thread.
-   public void Paint (SKCanvas SKGLViewCanvas)
+   public void Paint (SKCanvas SKViewCanvas)
    {
       if (_picture is not null)
       {
-         SKGLViewCanvas.DrawPicture(_picture);
+         SKViewCanvas.DrawPicture(_picture);
 
          PaintCount++;
       }
