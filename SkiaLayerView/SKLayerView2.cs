@@ -10,7 +10,7 @@ public class SKLayerView2 : SKCanvasView
    public static readonly BindableProperty ShowGridProperty = BindableProperty.Create(nameof(ShowGrid), typeof(bool), typeof(SKLayerView2), true, propertyChanged: OnShowGridChanged);
    public static readonly BindableProperty ShowOverlayProperty = BindableProperty.Create(nameof(ShowOverlay), typeof(bool), typeof(SKLayerView2), false, propertyChanged: OnShowOverlayChanged);
 
-
+   
    public List<SKLayer> Amplitudes
    {
       get => (List<SKLayer>)GetValue(AmplitudesProperty);
@@ -106,10 +106,12 @@ public class SKLayerView2 : SKCanvasView
          {
             await _renderSemaphore.WaitAsync(token);
 
+            var bounds = Bounds.ToSKRect();
+
             // TODO: Add ShouldRender flag
             foreach (var layerName in _layerOrder)
             {
-               Layers[layerName].Render(new(0,0, 199, 100));
+               Layers[layerName].Render(bounds);
             }
 
             // Invalidate the SKCanvasView to trigger a PaintSurface event
@@ -156,6 +158,8 @@ public class SKLayerView2 : SKCanvasView
          Layers[layerName].Paint(canvas);
       }
    }
+
+   
 
    private static void OnShowGridChanged (BindableObject bindable, object oldValue, object newValue) => throw new NotImplementedException();
    private static void OnMarkersChanged (BindableObject bindable, object oldValue, object newValue) => throw new NotImplementedException();
